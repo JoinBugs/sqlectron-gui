@@ -15,11 +15,14 @@
     "url": "https://github.com/sqlectron/sqlectron-gui"
   },
   "dependencies": {
-    "axios": "^0.7.0",
+    "axios": "^0.11.1",
     "babel": "^5.8.29",
     "babel-core": "^5.8.29",
     "babel-runtime": "^5.8.29",
+    "body-parser": "^1.15.1",
+    "cors": "^2.7.1",
     "debug": "^2.2.0",
+    "express": "^4.13.4",
     "sqlectron-core": "^4.0.0"
   }
 }

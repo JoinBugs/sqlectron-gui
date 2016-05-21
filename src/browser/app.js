@@ -1,5 +1,6 @@
 import { app, dialog } from 'electron';
 import { buildNewWindow } from './window';
+import * as server from './server';
 
 
 // TODO: Create a server to receive the crash reports
@@ -22,7 +23,10 @@ app.on('window-all-closed', () => {
 
 // This method will be called when Electron has done everything
 // initialization and ready for creating browser windows.
-app.on('ready', () => buildNewWindow(app));
+app.on('ready', () => {
+  buildNewWindow(app);
+  server.start();
+});
 
 
 // Show only the error description to the user

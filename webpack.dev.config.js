@@ -11,6 +11,10 @@ module.exports = {
   resolve: {
     extensions: ['', '.js'],
     modulesDirectories: ['node_modules', 'src/renderer'],
+    alias: {
+      // force use the web version of axios
+      './lib/adapters/http.js': './lib/adapters/xhr.js',
+    },
   },
   entry: {
     app: [

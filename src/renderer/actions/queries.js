@@ -1,12 +1,14 @@
 import fs from 'fs';
 import path from 'path';
 import { remote } from 'electron';
-import { cloneDeep, trim } from 'lodash';
+// import { cloneDeep, trim } from 'lodash';
+import { trim } from 'lodash';
 import csvStringify from 'csv-stringify';
 import { clipboard } from 'electron';
 import { getCurrentDBConn, getDBConnByName } from './connections';
 import { rowsValuesToString } from '../utils/convert';
 import wait from '../utils/wait';
+import axios from 'axios';
 
 
 export const NEW_QUERY = 'NEW_QUERY';
@@ -160,10 +162,18 @@ function executeQuery (query, isDefaultSelect = false, dbConnection) {
     dispatch({ type: EXECUTE_QUERY_REQUEST, query, isDefaultSelect });
     try {
       const dbConn = dbConnection || getCurrentDBConn(getState());
-      const remoteResult = await dbConn.executeQuery(query);
+      console.log('>>>STARTED', !!dbConn);
+      // const remoteResult = await dbConn.executeQuery(query);
+      const { data: results } = await axios({
+        method: 'post',
+        url: 'http://localhost:3000/query',
+        data: { query },
+        timeout: Infinity,
+      });
+      console.log('>>>FINISHED');
 
       // Remove any "reference" to the remote IPC object
-      const results = cloneDeep(remoteResult);
+      // const results = cloneDeep(remoteResult);
 
       dispatch({ type: EXECUTE_QUERY_SUCCESS, query, results });
     } catch (error) {
